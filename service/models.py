@@ -77,12 +77,8 @@ class Pet(object):
     client = None  # cloudant.client.Cloudant
     database = None  # cloudant.database.CloudantDatabase
 
-    def __init__(
-        self,
-        name: str = None,
-        category: str = None,
-        available: bool = True,
-        gender: Gender = Gender.UNKNOWN,
+    def __init__(self, name: str = None, category: str = None, 
+                available: bool = True, gender: Gender = Gender.UNKNOWN,
     ):
         """Constructor"""
         self.id = None
@@ -91,13 +87,7 @@ class Pet(object):
         self.available = available
         self.gender = gender
 
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def create(self) -> None:
         """
         Creates a new Pet in the database
@@ -114,13 +104,7 @@ class Pet(object):
         if document.exists():
             self.id = document["_id"]
 
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def update(self) -> None:
         """Updates a Pet in the database"""
         try:
@@ -131,13 +115,7 @@ class Pet(object):
             document.update(self.serialize())
             document.save()
 
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def delete(self) -> None:
         """Deletes a Pet from the database"""
         try:
@@ -219,13 +197,7 @@ class Pet(object):
         cls.client.disconnect()
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def create_query_index(cls, field_name, order="asc") -> None:
         """Creates a new query index for searching"""
         cls.database.create_query_index(
@@ -233,26 +205,14 @@ class Pet(object):
         )
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def remove_all(cls) -> None:
         """Removes all documents from the database (use for testing)"""
         for document in cls.database:
             document.delete()
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def all(cls) -> list:
         """Query that returns all Pets"""
         results = []
@@ -267,13 +227,7 @@ class Pet(object):
     ######################################################################
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find_by(cls, **kwargs) -> list:
         """Find records using selector"""
         query = Query(cls.database, selector=kwargs)
@@ -285,13 +239,7 @@ class Pet(object):
         return results
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find(cls, pet_id: str) -> list:
         """Finds a Pet by it's ID
 
@@ -310,13 +258,7 @@ class Pet(object):
             return None
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find_by_name(cls, name: str) -> list:
         """Returns all Pets with the given name
 
@@ -331,13 +273,7 @@ class Pet(object):
         return cls.find_by(name=name)
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find_by_category(cls, category: str) -> list:
         """Returns all of the Pets in a category
 
@@ -352,13 +288,7 @@ class Pet(object):
         return cls.find_by(category=category)
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find_by_availability(cls, available: bool = True) -> list:
         """Returns all Pets by their availability
 
@@ -373,13 +303,7 @@ class Pet(object):
         return cls.find_by(available=available)
 
     @classmethod
-    @retry(
-        HTTPError,
-        delay=RETRY_DELAY,
-        backoff=RETRY_BACKOFF,
-        tries=RETRY_COUNT,
-        logger=logger,
-    )
+    @retry(HTTPError, delay=RETRY_DELAY, backoff=RETRY_BACKOFF, tries=RETRY_COUNT, logger=logger)
     def find_by_gender(cls, gender: str) -> list:
         """Returns all Pets by their Gender
 
@@ -398,9 +322,9 @@ class Pet(object):
     ############################################################
 
     @staticmethod
-    def init_db(dbname: str = "pets") -> None:
+    def init_db(dbname : str = "pets") -> None:
         """
-        Initialized Cloudant database connection
+        Initialized Coundant database connection
         """
         opts = {}
         vcap_services = {}
