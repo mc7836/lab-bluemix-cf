@@ -16,26 +16,35 @@
 			<td>
         <h1 id = "message">Pet Demo REST API Service</h1>
         <p class='description'>
+<<<<<<< HEAD
 				GET <a href="/pets" id = "get_pets">/api/pets</a> to see all the pets.
 				<br><br>
                 GET <a href="/pets?category=dog">/api/pets?category=dog</a> to see all of the pets in the 'dog' category.
+=======
+				GET <a href="/pets" id = "get_pets">/pets</a> to see all the pets.
 				<br><br>
-				GET /api/pets/{id} retrieves a pet from the DB using an ID.
+                GET <a href="/pets?category=dog">/pets?category=dog</a> to see all of the pets in the 'dog' category.
+>>>>>>> 24dee21c5dcb76ec7ae81abde8d6b4f34db3ed0a
 				<br><br>
-				PUT /api/pets/{id} updates a pet using an ID.
+				GET /pets/{id} retrieves a pet from the DB using an ID.
 				<br><br>
-				DELETE /api/pets/{id} removes a pet from the DB using an ID.
+				PUT /pets/{id} updates a pet using an ID.
 				<br><br>
-				POST /api/pets creates an new pet.
+				DELETE /pets/{id} removes a pet from the DB using an ID.
+				<br><br>
+				POST /pets creates an new pet.
                 <p>Example Data:</p>
                 <pre>
     {
         "name": "bowser",
-        "category": "dog"
+        "category": "dog",
+        "gender": "MALE",
+        "available": "True"
     }
                 </pre>
                 Try it now:
                 <form id="create_pets" action="/pets" method="post" enctype="application/json">
+<<<<<<< HEAD
                     <input type="hidden" name="available" value="True" />
                     <div>
                       <label for="name">What is the name of the pet?</label>
@@ -48,6 +57,39 @@
                     <div>
                       <button id="submit">Create Pet</button>
                     </div>
+=======
+                  <!-- NAME -->
+                  <div>
+                    <label for="name">What is the name of the pet?</label>
+                    <input name="name" id="name" value="Bowser">
+                  </div>
+                  <!-- CATEGORY -->
+                  <div>
+                    <label for="category">What category of pet?</label>
+                    <input name="category" id="category" value="dog">
+                  </div>
+                  <!-- GENDER -->
+                  <div>
+                    <label for="gender">What gender is the pet?</label>
+                    <select name="gender" id="gender">
+                      <option value="UNKNOWN">Unknown</option>
+                      <option value="MALE">Male</option>
+                      <option value="FEMALE">Female</option>
+                    </select>
+                  </div>
+                  <!-- AVAILABLE -->
+                  <div>
+                    <label for="available">Available for adoption:</label>
+                    <select name="available" id="available">
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                  <!-- SUBMIT -->
+                  <div>
+                    <button id="submit">Create Pet</button>
+                  </div>
+>>>>>>> 24dee21c5dcb76ec7ae81abde8d6b4f34db3ed0a
                 </form>
 			</td>
 		</tr>
